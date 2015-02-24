@@ -1,0 +1,47 @@
+import java.util.Stack;
+import java.util.EmptyStackException;
+
+
+/** 
+ * Implement Stack with Push(), Pop(), Min() operations in O(1) time.
+ */
+public class StackWithMin<E extends Comparable<E>> extends Stack<E> {
+	private Stack<E> minStack;
+	
+	public StackWithMin() {
+		super();
+		minStack = new Stack<E>();
+	}
+	
+	@Override
+	public E push(E e) {
+		if(minStack.empty() || minStack.peek().compareTo(e) >= 0) {
+			minStack.push(e);
+		}
+		super.push(e);
+		return e;
+	}
+	
+	@Override
+	public E pop() {
+		E e = super.pop();
+		if(minStack.peek().compareTo(e) == 0) {
+			minStack.pop();
+		}
+		return e;
+	}
+	
+	public E min() throws MinStackEmptyException {
+		if(minStack.empty()) {
+			throw new MinStackEmptyException("MinStackEmpty!");
+		}
+		return minStack.peek();
+	}
+}
+
+class MinStackEmptyException extends Exception {
+	public MinStackEmptyException() {}
+	public MinStackEmptyException(String msg) {
+		super(msg);
+	}
+}
